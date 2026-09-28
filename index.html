@@ -1,0 +1,235 @@
+html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#4f46e5">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#4f46e5">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script><title>4000 Essential Words 2</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--primary:#4f46e5;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--bg:#f9fafb;--card:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb}
+[data-theme=dark]{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--muted:#94a3b8;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:.3s}
+.app{max-width:600px;margin:0 auto;padding-bottom:80px}
+header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary),#6366f1);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(79,70,229,.3)}
+header h1{font-size:15px;font-weight:700}
+header .sub{font-size:10px;opacity:.85;margin-top:2px}
+.icon-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+.icon-btn:active{transform:scale(.9)}
+.hero{padding:22px 20px 12px;text-align:center}
+.hero h2{font-size:20px;margin-bottom:6px}
+.hero p{color:var(--muted);font-size:13px}
+.pbar{margin:14px 20px 8px;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .6s}
+.ptext{text-align:center;font-size:11px;color:var(--muted);margin-bottom:16px;font-weight:600}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:10px;padding:0 14px}
+.ucard{background:var(--card);border-radius:14px;padding:14px 6px;text-align:center;cursor:pointer;transition:.15s;border:2px solid transparent;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.ucard:active{transform:scale(.94)}
+.ucard.cur{border-color:var(--primary)}
+.ucard.done::after{content:'✓';position:absolute;top:5px;right:6px;background:var(--success);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.unum{font-size:22px;font-weight:800;color:var(--primary)}
+.ulbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.ucnt{font-size:10px;color:var(--muted);margin-top:3px}
+.tabs{display:flex;background:var(--card);position:sticky;top:66px;z-index:90;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:80px;padding:12px 6px;text-align:center;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:.15s;white-space:nowrap}
+.tab.on{color:var(--primary);border-bottom-color:var(--primary)}
+.tab .em{display:block;font-size:17px;margin-bottom:2px}
+.content{padding:14px;animation:fi .25s}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.wcard{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);position:relative;overflow:hidden}
+.wcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--primary),var(--accent))}
+.whd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.w{font-size:19px;font-weight:800;color:var(--primary);letter-spacing:-.3px}
+.pos{font-size:9px;background:var(--accent);color:#fff;padding:2px 7px;border-radius:5px;font-weight:700;text-transform:uppercase}
+.tr{font-size:12px;color:var(--muted);margin-bottom:8px;font-family:Courier,monospace}
+.def{font-size:14px;line-height:1.5;margin-bottom:8px}
+.ex{font-size:13px;color:var(--muted);font-style:italic;padding-left:10px;border-left:3px solid var(--border);line-height:1.5}
+.ex b{color:var(--primary);font-style:normal}
+.spk{background:var(--primary);color:#fff;border:none;width:30px;height:30px;border-radius:50%;font-size:13px;cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;justify-content:center}
+.spk:active{transform:scale(.9)}
+.spk.play{animation:pl 1s infinite}
+@keyframes pl{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.fwrap{perspective:1200px;margin:16px 0}
+.fcard{width:100%;height:320px;position:relative;transform-style:preserve-3d;transition:transform .6s;cursor:pointer}
+.fcard.flip{transform:rotateY(180deg)}
+.fside{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.ffront{background:linear-gradient(135deg,var(--primary),#6366f1);color:#fff}
+.fback{background:var(--card);transform:rotateY(180deg);border:2px solid var(--border)}
+.fw{font-size:32px;font-weight:800;margin-bottom:8px}
+.fp{opacity:.85;font-size:13px}
+.fhint{position:absolute;bottom:18px;font-size:11px;opacity:.7}
+.fbd{font-size:17px;line-height:1.5;margin-bottom:14px}
+.fbe{font-size:13px;color:var(--muted);font-style:italic}
+.fnav{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.btn{background:var(--primary);color:#fff;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.btn:active{transform:scale(.95)}
+.btn.sec{background:var(--card);color:var(--text);border:2px solid var(--border)}
+.fctr{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+.qhd{background:var(--card);padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.qn{font-size:11px;color:var(--muted);font-weight:600}
+.qq{font-size:17px;font-weight:700;margin:6px 0;line-height:1.4}
+.qs{font-size:12px;color:var(--muted)}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{background:var(--card);border:2px solid var(--border);border-radius:11px;padding:14px;cursor:pointer;font-size:14px;text-align:left;color:var(--text);font-weight:500;transition:.15s;font-family:inherit}
+.opt:active{transform:scale(.98)}
+.opt.correct{border-color:var(--success);background:rgba(16,185,129,.1)}
+.opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.1)}
+.opt.dis{pointer-events:none}
+.rtitle{font-size:20px;font-weight:800;margin-bottom:12px;color:var(--primary)}
+.rtext{background:var(--card);padding:18px;border-radius:14px;line-height:1.8;font-size:15px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px}
+.rtext p{margin-bottom:12px}
+.tw{color:var(--primary);font-weight:700;border-bottom:2px dotted var(--accent);cursor:pointer}
+.comp-q{background:var(--card);padding:14px;border-radius:13px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.comp-q .q{font-weight:700;margin-bottom:8px;font-size:14px}
+.copt{padding:9px 11px;border-radius:8px;margin-bottom:5px;font-size:13px;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--text);text-align:left;width:100%;font-family:inherit}
+.copt:active{transform:scale(.98)}
+.copt.correct{background:rgba(16,185,129,.15);border-color:var(--success)}
+.copt.wrong{background:rgba(239,68,68,.15);border-color:var(--danger)}
+.copt.dis{pointer-events:none}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:600px;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+.nav{flex:1;text-align:center;cursor:pointer;color:var(--muted);font-size:9px;font-weight:600}
+.nav .em{display:block;font-size:19px;margin-bottom:1px}
+.nav.on{color:var(--primary)}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .em{font-size:44px;margin-bottom:10px}
+.spell-hd{text-align:center;padding:20px;background:var(--card);border-radius:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.spell-hint{font-size:14px;color:var(--muted);margin-bottom:8px}
+.spell-word{font-size:16px;font-weight:700;color:var(--primary);letter-spacing:3px;margin-bottom:14px}
+.spell-input{width:100%;padding:14px;font-size:18px;text-align:center;border:2px solid var(--border);border-radius:11px;background:var(--card);color:var(--text);font-family:inherit;letter-spacing:2px}
+.spell-input:focus{outline:none;border-color:var(--primary)}
+.spell-input.correct{border-color:var(--success);background:rgba(16,185,129,.1)}
+.spell-input.wrong{border-color:var(--danger);background:rgba(239,68,68,.1)}
+.spell-score{text-align:center;font-size:13px;color:var(--muted);margin-top:12px}
+.popup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.popup.on{display:flex}
+.popup-c{background:var(--card);border-radius:18px;padding:22px;max-width:360px;width:100%;text-align:center}
+.popup-c h3{font-size:18px;margin-bottom:8px;color:var(--primary)}
+.popup-c p{color:var(--muted);margin-bottom:14px;font-size:14px}
+.search-bar{padding:12px 14px;background:var(--card);border-bottom:1px solid var(--border)}
+.search-bar input{width:100%;padding:11px 14px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit}
+.search-bar input:focus{outline:none;border-color:var(--primary)}
+.tab-mini{padding:8px 14px;background:var(--card);display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--border)}
+.tab-mini button{padding:6px 12px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit}
+.tab-mini button.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div><h1>📚 4000 Essential Words 2</h1><div class="sub">Paul Nation · 30 units · 600 words</div></div>
+<button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+</header>
+<div id="view"></div>
+<nav class="bnav" id="bnav">
+<div class="nav on" onclick="go('home')"><span class="em">🏠</span>Home</div>
+<div class="nav" onclick="go('words')"><span class="em">📖</span>Words</div>
+<div class="nav" onclick="go('flash')"><span class="em">🃏</span>Cards</div>
+<div class="nav" onclick="go('quiz')"><span class="em">✍️</span>Quiz</div>
+<div class="nav" onclick="go('spell')"><span class="em">⌨️</span>Spell</div>
+<div class="nav" onclick="go('reading')"><span class="em">📄</span>Read</div>
+</nav>
+</div>
+<div class="popup" id="popup" onclick="closePopup(event)">
+<div class="popup-c" onclick="event.stopPropagation()">
+<h3 id="popT"></h3><p id="popX"></p>
+<button class="btn" onclick="closePopup()">OK</button>
+</div>
+</div>
+<script src="data.js"></script>
+<script>
+let S={cur:0,tab:'home',fi:0,qi:0,qs:0,qa:false,si:0,ss:0,sa:false,sr:false,prog:JSON.parse(localStorage.getItem('p4000b2')||'{}')};
+function save(){localStorage.setItem('p4000b2',JSON.stringify(S.prog))}
+function markW(u,i){const k='u'+u;if(!S.prog[k])S.prog[k]={w:[],q:0,r:0,s:0};if(!S.prog[k].w.includes(i)){S.prog[k].w.push(i);save()}}
+function markU(u,t){const k='u'+u;if(!S.prog[k])S.prog[k]={w:[],q:0,r:0,s:0};S.prog[k][t]=1;save()}
+function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'☀️':'🌙';localStorage.setItem('th4000',n)}
+function speak(t){if(!('speechSynthesis'in window)){pop('Недоступно','Ваш браузер не поддерживает озвучку');return}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.85;window.speechSynthesis.speak(u)}
+function go(t){S.tab=t;S.qi=0;S.qs=0;S.qa=false;S.fi=0;S.si=0;S.ss=0;S.sa=false;S.sr=false;render();window.scrollTo({top:0,behavior:'smooth'})}
+function selU(i){S.cur=i;go('words')}
+function pop(t,x){document.getElementById('popT').textContent=t;document.getElementById('popX').textContent=x;document.getElementById('popup').classList.add('on')}
+function closePopup(e){if(e&&e.target!==e.currentTarget&&e.type==='click'&&e.target.id!=='popup')return;document.getElementById('popup').classList.remove('on')}
+function render(){const r=document.getElementById('view');const tabs=['home','words','flash','quiz','spell','reading'];document.querySelectorAll('.nav').forEach((n,i)=>n.classList.toggle('on',tabs[i]===S.tab));
+if(S.tab==='home')r.innerHTML=hHome();
+else if(S.tab==='words')r.innerHTML=hWords();
+else if(S.tab==='flash')r.innerHTML=hFlash();
+else if(S.tab==='quiz')r.innerHTML=hQuiz();
+else if(S.tab==='spell')r.innerHTML=hSpell();
+else if(S.tab==='reading')r.innerHTML=hReading()}
+
+function hHome(){const T=UNITS.length;const D=UNITS.filter((u,i)=>{const p=S.prog['u'+i];return p&&p.q===1&&p.r===1}).length;const P=T?Math.round(D/T*100):0;
+const g=UNITS.map((u,i)=>{const p=S.prog['u'+i]||{};const d=p.q===1&&p.r===1;return`<div class="ucard ${d?'done':''} ${S.cur===i?'cur':''}" onclick="selU(${i})"><div class="unum">${u.n}</div><div class="ulbl">Unit</div><div class="ucnt">${u.w.length} слов</div></div>`}).join('');
+return`<div class="hero"><h2>Добро пожаловать! 👋</h2><p>30 юнитов · 600 слов · озвучка · квизы</p></div><div class="pbar"><div class="pfill" style="width:${P}%"></div></div><div class="ptext">${D}/${T} юнитов · ${P}%</div><div class="ugrid">${g}</div>
+<div class="content"><div class="wcard" style="text-align:center">
+<div style="font-size:30px;margin-bottom:6px">🎧</div>
+<div style="font-weight:700;margin-bottom:4px">Озвучка слов</div>
+<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Нажмите 🔊 у любого слова — телефон произнесёт его.</div>
+<a href="https://m.soundcloud.com/compasspub/400-eew-2nd-1-track1-1" target="_blank" class="btn" style="text-decoration:none;display:inline-block">Открыть оригинал аудио</a>
+</div></div>`}
+
+function hWords(){const u=UNITS[S.cur];
+const w=u.w.map((x,i)=>`<div class="wcard"><div class="whd"><div class="w">${x[5]} ${x[0]}</div><div class="pos">${x[2]}</div></div><div class="tr">${x[1]}</div><div class="def">${x[3]}</div><div class="ex">${x[4].replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}</div><button class="spk" onclick="event.stopPropagation();this.classList.add('play');speak('${x[0]}');setTimeout(()=>this.classList.remove('play'),1200)">🔊</button></div>`).join('');
+return`<div class="tabs"><div class="tab on">📖 Unit ${u.n} · ${u.w.length} слов</div></div><div class="content">${w}</div>`}
+
+function hFlash(){const u=UNITS[S.cur];const w=u.w[S.fi];
+return`<div class="tabs"><div class="tab on">🃏 ${S.fi+1}/${u.w.length}</div></div><div class="content">
+<div class="fwrap"><div class="fcard" id="fc" onclick="this.classList.toggle('flip')">
+<div class="fside ffront"><div class="fw">${w[5]} ${w[0]}</div><div class="fp">${w[1]} · ${w[2]}</div><div class="fhint">👆 Нажмите, чтобы увидеть значение</div></div>
+<div class="fside fback"><div class="fbd">${w[3]}</div><div class="fbe">${w[4].replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}</div></div>
+</div></div>
+<div class="fnav"><button class="btn sec" onclick="prevF()">←</button><button class="btn" onclick="speak('${w[0]}')">🔊</button><button class="btn sec" onclick="nextF()">→</button></div>
+<div class="fctr">${S.fi+1} / ${u.w.length}</div></div>`}
+function nextF(){const u=UNITS[S.cur];markW(S.cur,S.fi);S.fi=(S.fi+1)%u.w.length;render()}
+function prevF(){const u=UNITS[S.cur];S.fi=(S.fi-1+u.w.length)%u.w.length;render()}
+
+function hQuiz(){const u=UNITS[S.cur];const T=u.w.length;
+if(S.qi>=T){markU(S.cur,'q');return`<div class="tabs"><div class="tab on">✍️ Квиз завершён</div></div><div class="content"><div class="empty"><div class="em">🎉</div><h3>Отлично!</h3><p>Результат: <b style="color:var(--primary);font-size:20px">${S.qs}/${T}</b></p><button class="btn" style="margin-top:14px" onclick="go('quiz')">Пройти снова</button></div></div>`}
+const w=u.w[S.qi];const o=u.w.filter((_,i)=>i!==S.qi);const sh=[...o].sort(()=>Math.random()-.5).slice(0,3);const opts=[...sh,w].sort(()=>Math.random()-.5);const ci=opts.findIndex(x=>x[0]===w[0]);
+return`<div class="tabs"><div class="tab on">✍️ ${S.qi+1}/${T}</div></div><div class="content">
+<div class="qhd"><div class="qn">Выберите правильное определение</div><div class="qq">${w[5]} ${w[0]}</div><div class="qs">${w[1]} · ${w[2]}</div></div>
+<div class="opts">${opts.map((x,i)=>`<button class="opt" onclick="ansQ(${i},${ci})">${x[3]}</button>`).join('')}</div>
+<div style="text-align:center;margin-top:14px;color:var(--muted);font-size:12px">Счёт: ${S.qs}</div></div>`}
+function ansQ(s,c){if(S.qa)return;S.qa=true;const b=document.querySelectorAll('.opt');b.forEach((x,i)=>{x.classList.add('dis');if(i===c)x.classList.add('correct');else if(i===s)x.classList.add('wrong')});if(s===c)S.qs++;setTimeout(()=>{S.qi++;S.qa=false;render()},1100)}
+
+function hSpell(){const u=UNITS[S.cur];const T=u.w.length;
+if(S.si>=T){markU(S.cur,'s');return`<div class="tabs"><div class="tab on">⌨️ Готово</div></div><div class="content"><div class="empty"><div class="em">🏆</div><h3>Правописание пройдено!</h3><p>Результат: <b style="color:var(--primary);font-size:20px">${S.ss}/${T}</b></p><button class="btn" style="margin-top:14px" onclick="go('spell')">Пройти снова</button></div></div>`}
+const w=u.w[S.si];
+return`<div class="tabs"><div class="tab on">⌨️ ${S.si+1}/${T}</div></div><div class="content">
+<div class="spell-hd"><div class="spell-hint">Определение:</div><div style="font-size:14px;margin-bottom:10px">${w[3]}</div>
+<div style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:10px">${w[4]}</div>
+<div class="spell-word" id="hintW">${w[0][0]}${'_'.repeat(w[0].length-1)}</div></div>
+<input class="spell-input" id="spellIn" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Введите слово..." onkeydown="if(event.key==='Enter')checkSpell()">
+<div style="display:flex;gap:8px;margin-top:12px">
+<button class="btn" onclick="checkSpell()">Проверить</button>
+<button class="btn sec" onclick="hintSpell()">💡 Подсказка</button>
+<button class="btn sec" onclick="speak('${w[0]}')">🔊</button>
+</div>
+<div class="spell-score">Счёт: ${S.ss}</div></div>`}
+function checkSpell(){const u=UNITS[S.cur];const w=u.w[S.si];const inp=document.getElementById('spellIn');const val=inp.value.trim().toLowerCase();const corr=w[0].toLowerCase();
+if(!val)return;
+if(val===corr){inp.classList.add('correct');S.ss++;if(!S.sa){S.sa=true;setTimeout(()=>{S.si++;S.sa=false;render()},900)}}
+else{inp.classList.add('wrong');if(!S.sa){S.sa=true;setTimeout(()=>{inp.classList.remove('wrong');S.sa=false},800)}}}
+function hintSpell(){const u=UNITS[S.cur];const w=u.w[S.si];const cur=document.getElementById('hintW').textContent.replace(/ /g,'');const nextLen=Math.min(cur.replace(/_/g,'').length+1,w[0].length);const shown=w[0].substring(0,nextLen)+'_'.repeat(w[0].length-nextLen);document.getElementById('hintW').textContent=shown}
+
+function hReading(){const u=UNITS[S.cur];const targets=u.w.map(x=>x[0].toLowerCase());
+const paras=(u.paras||u.paragraphs||[]).map(p=>{let h=p;targets.forEach(t=>{const re=new RegExp(`\\b(${t})\\b`,'gi');h=h.replace(re,'<span class="tw" onclick="speak(\'$1\')">$1</span>')});return`<p>${h}</p>`}).join('');
+const qs=(u.questions||[]).map((q,qi)=>`<div class="comp-q" id="cq${qi}"><div class="q">${qi+1}. ${q.q}</div>${q.opts.map((o,oi)=>`<button class="copt" onclick="ansC(${qi},${oi},${q.a})">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}</div>`).join('');
+const hasRead=u.paras||u.paragraphs||u.questions;
+return`<div class="tabs"><div class="tab on">📄 Unit ${u.n} · ${u.t}</div></div><div class="content">
+<div class="rtitle">${u.t}</div>
+<div class="rtext">${hasRead?paras:'<p style="text-align:center;color:var(--muted)">Текст для чтения из этой книги. Откройте PDF для чтения отрывка и добавьте его в поле <b>paras</b> объекта юнита в data.js.</p>'}</div>
+${qs?'<div class="comp-q" style="background:transparent;box-shadow:none;padding:0"><div class="q">🧠 Понимание прочитанного</div></div>'+qs:''}
+</div>`}
+function ansC(qi,s,c){const q=document.getElementById('cq'+qi);q.querySelectorAll('.copt').forEach((b,i)=>{b.classList.add('dis');if(i===c)b.classList.add('correct');else if(i===s)b.classList.add('wrong')});setTimeout(()=>{const all=document.querySelectorAll('.comp-q');const done=[...all].every(el=>el.querySelector('.copt.correct,.copt.wrong'));if(done)markU(S.cur,'r')},100)}
+
+(function(){const t=localStorage.getItem('th4000');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️'}render()})();
+</script>
+<script src="data.js"></script></body>
+</html>
